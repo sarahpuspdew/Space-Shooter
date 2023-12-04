@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://h4s4vda5ejj1"]
+[gd_scene load_steps=4 format=3 uid="uid://h4s4vda5ejj1"]
 
 [ext_resource type="PackedScene" uid="uid://fcyxv6c1fgqs" path="res://Scenes/Background.tscn" id="1_n0d6q"]
 [ext_resource type="PackedScene" uid="uid://ccqnerqjyhjd2" path="res://Scenes/Player.tscn" id="1_ua5f2"]
+[ext_resource type="PackedScene" uid="uid://d0p0it0c7owd1" path="res://Scenes/GreenEnemy.tscn" id="3_530b5"]
 
 [node name="World" type="Node2D"]
 
@@ -9,3 +10,6 @@
 
 [node name="Player" parent="." instance=ExtResource("1_ua5f2")]
 position = Vector2(80, 216)
+
+[node name="GreenEnemy" parent="." instance=ExtResource("3_530b5")]
+position = Vector2(48, 56)
