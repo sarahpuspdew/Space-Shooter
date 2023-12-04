@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://ccqnerqjyhjd2"]
+[gd_scene load_steps=24 format=3 uid="uid://ccqnerqjyhjd2"]
 
 [ext_resource type="Texture2D" uid="uid://csv6axkat2gqy" path="res://Assets/Sprites/ship.png" id="1_70a41"]
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_i4whj"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Components/SpawnerComponent.gd" id="7_8avc8"]
 [ext_resource type="PackedScene" uid="uid://b0br7c0mhjlrk" path="res://Projectiles/Laser.tscn" id="8_o3m3q"]
 [ext_resource type="Script" path="res://Components/ScaleComponent.gd" id="9_0oxkg"]
+[ext_resource type="Script" path="res://Components/HurtboxComponent.gd" id="11_mj2wv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ste3l"]
 atlas = ExtResource("1_70a41")
@@ -110,6 +111,10 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pd7ph"]
+radius = 4.0
+height = 14.0
+
 [node name="Player" type="Node2D"]
 script = ExtResource("1_i4whj")
 metadata/_edit_group_ = true
@@ -156,5 +161,12 @@ autostart = true
 [node name="ScaleComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
 script = ExtResource("9_0oxkg")
 sprite = NodePath("../Anchor")
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+collision_mask = 0
+script = ExtResource("11_mj2wv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CapsuleShape2D_pd7ph")
 
 [connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]

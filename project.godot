@@ -36,6 +36,11 @@ left={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player_Hurtbox"
+2d_physics/layer_2="Enemy_Hurtbox"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
