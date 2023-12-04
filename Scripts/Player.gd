@@ -1,16 +1,27 @@
 extends Node2D
 class_name Player
 
-@onready var left_muzzle : Marker2D = $LeftMuzzle
-@onready var right_muzzle : Marker2D = $RightMuzzle
-@onready var spawner_component : SpawnerComponent = $SpawnerComponent as SpawnerComponent
-@onready var scale_component : ScaleComponent = $ScaleComponent as ScaleComponent
-@onready var ship_sprite : AnimatedSprite2D = $Anchor/AnimatedSprite2D
-@onready var flame_sprite : AnimatedSprite2D = $Anchor/FlameAnimatedSprite
+@onready var left_muzzle := $LeftMuzzle
+@onready var right_muzzle := $RightMuzzle
+@onready var ship_sprite := $Anchor/AnimatedSprite2D
+@onready var flame_sprite := $Anchor/FlameAnimatedSprite
+@onready var lase_spawner_component := $LaserSpawnerComponent as SpawnerComponent
+@onready var scale_component := $ScaleComponent as ScaleComponent
+@onready var stats_component := $StatsComponent as StatsComponent
+@onready var hurtbox_component := $HurtboxComponent as HurtboxComponent
+@onready var explosion_spawner_component := $ExplosionSpawnerComponent as SpawnerComponent
+
+
+func _ready():
+	stats_component.no_health.connect(_on_stats_no_health)
 
 
 func _process(delta):
 	animate_ship()
+
+
+func _on_stats_no_health():
+	queue_free()
 
 
 func animate_ship():
@@ -26,8 +37,8 @@ func animate_ship():
 
 
 func shoot():
-		spawner_component.spawn(left_muzzle.global_position)
-		spawner_component.spawn(right_muzzle.global_position)
+		lase_spawner_component.spawn(left_muzzle.global_position)
+		lase_spawner_component.spawn(right_muzzle.global_position)
 		
 		scale_component.tween_scale()
 

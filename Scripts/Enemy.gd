@@ -8,20 +8,26 @@ class_name Enemy
 @onready var hitbox_component := $HitboxComponent as HitboxComponent
 @onready var hurtbox_component := $HurtboxComponent as HurtboxComponent
 @onready var stats_component := $StatsComponent as StatsComponent
+@onready var destroyed_component := $DestroyedComponent as DestroyedComponent
 
 
 func _ready():
-	hurtbox_component.hurt.connect(_on_hurt_hurtbox)
-	stats_component.no_health.connect(_on_no_health)
+	hurtbox_component.hurt.connect(_on_hurtbox_hurt)
+	hitbox_component.hit_hurtbox.connect(_on_hitbox_hit)
+	stats_component.no_health.connect(_on_stats_no_health)
 
 
-func _on_hurt_hurtbox(hitbox):
+func _on_hitbox_hit(hurtbox):
+		destroyed_component.destroy()
+
+
+func _on_hurtbox_hurt(hitbox):
 	flash_component.flash()
 	scale_component.tween_scale()
 	shake_component.tween_shake()
 
 
-func _on_no_health():
+func _on_stats_no_health():
 	queue_free()
 
 

@@ -1,16 +1,20 @@
-[gd_scene load_steps=24 format=3 uid="uid://ccqnerqjyhjd2"]
+[gd_scene load_steps=28 format=3 uid="uid://ccqnerqjyhjd2"]
 
 [ext_resource type="Texture2D" uid="uid://csv6axkat2gqy" path="res://Assets/Sprites/ship.png" id="1_70a41"]
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_i4whj"]
 [ext_resource type="Script" path="res://Components/MoveInputComponent.gd" id="2_sy4lo"]
 [ext_resource type="Texture2D" uid="uid://cmfx7uwiptxam" path="res://Assets/Sprites/ship_flame.png" id="3_coou2"]
 [ext_resource type="Resource" uid="uid://dk86nojx82f3s" path="res://Resources/PlayerMoveStats.tres" id="3_j24hr"]
+[ext_resource type="Script" path="res://Components/StatsComponent.gd" id="4_7tcdt"]
 [ext_resource type="Script" path="res://Components/MoveComponent.gd" id="4_t3805"]
 [ext_resource type="Script" path="res://Components/PositionClampComponent.gd" id="5_v1bjx"]
 [ext_resource type="Script" path="res://Components/SpawnerComponent.gd" id="7_8avc8"]
 [ext_resource type="PackedScene" uid="uid://b0br7c0mhjlrk" path="res://Projectiles/Laser.tscn" id="8_o3m3q"]
 [ext_resource type="Script" path="res://Components/ScaleComponent.gd" id="9_0oxkg"]
 [ext_resource type="Script" path="res://Components/HurtboxComponent.gd" id="11_mj2wv"]
+[ext_resource type="Script" path="res://Components/HurtComponent.gd" id="12_r5gy7"]
+[ext_resource type="PackedScene" uid="uid://bmivg1kbwqmc1" path="res://Effects/ExplosionEffect.tscn" id="14_3mpop"]
+[ext_resource type="Script" path="res://Components/DestroyedComponent.gd" id="15_gl4gu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ste3l"]
 atlas = ExtResource("1_70a41")
@@ -111,8 +115,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pd7ph"]
-radius = 4.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6slgg"]
+radius = 5.0
 height = 14.0
 
 [node name="Player" type="Node2D"]
@@ -123,13 +127,25 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Anchor"]
 sprite_frames = SubResource("SpriteFrames_jnvea")
-animation = &"turn_left"
-frame_progress = 0.549148
+animation = &"turn_right"
 
 [node name="FlameAnimatedSprite" type="AnimatedSprite2D" parent="Anchor"]
 position = Vector2(0, 16)
 sprite_frames = SubResource("SpriteFrames_fv8bg")
 animation = &"turn_right"
+
+[node name="LeftMuzzle" type="Marker2D" parent="."]
+position = Vector2(-5, -4)
+
+[node name="RightMuzzle" type="Marker2D" parent="."]
+position = Vector2(5, -4)
+
+[node name="FireRateTimer" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("4_7tcdt")
 
 [node name="MoveInputComponent" type="Node" parent="." node_paths=PackedStringArray("move_component")]
 script = ExtResource("2_sy4lo")
@@ -144,29 +160,34 @@ actor = NodePath("..")
 script = ExtResource("5_v1bjx")
 actor = NodePath("..")
 
-[node name="LeftMuzzle" type="Marker2D" parent="."]
-position = Vector2(-5, -4)
-
-[node name="RightMuzzle" type="Marker2D" parent="."]
-position = Vector2(5, -4)
-
-[node name="SpawnerComponent" type="Node" parent="."]
+[node name="LaserSpawnerComponent" type="Node" parent="."]
 script = ExtResource("7_8avc8")
 scene = ExtResource("8_o3m3q")
-
-[node name="FireRateTimer" type="Timer" parent="."]
-wait_time = 0.4
-autostart = true
 
 [node name="ScaleComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
 script = ExtResource("9_0oxkg")
 sprite = NodePath("../Anchor")
+
+[node name="HurtComponent" type="Node" parent="." node_paths=PackedStringArray("stats_component", "hurtbox_component")]
+script = ExtResource("12_r5gy7")
+stats_component = NodePath("../StatsComponent")
+hurtbox_component = NodePath("../HurtboxComponent")
 
 [node name="HurtboxComponent" type="Area2D" parent="."]
 collision_mask = 0
 script = ExtResource("11_mj2wv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-shape = SubResource("CapsuleShape2D_pd7ph")
+shape = SubResource("CapsuleShape2D_6slgg")
+
+[node name="ExplosionSpawnerComponent" type="Node" parent="."]
+script = ExtResource("7_8avc8")
+scene = ExtResource("14_3mpop")
+
+[node name="DestroyedComponent" type="Node" parent="." node_paths=PackedStringArray("actor", "stats_component", "destroy_effect_spawner_component")]
+script = ExtResource("15_gl4gu")
+actor = NodePath("..")
+stats_component = NodePath("../StatsComponent")
+destroy_effect_spawner_component = NodePath("../ExplosionSpawnerComponent")
 
 [connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]
