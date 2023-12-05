@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://fcyxv6c1fgqs" path="res://Scenes/Background.tscn" id="1_n0d6q"]
 [ext_resource type="PackedScene" uid="uid://ccqnerqjyhjd2" path="res://Scenes/Player.tscn" id="1_ua5f2"]
-[ext_resource type="PackedScene" uid="uid://d0p0it0c7owd1" path="res://Scenes/GreenEnemy.tscn" id="3_530b5"]
+[ext_resource type="PackedScene" uid="uid://cgvlc1cx7nkql" path="res://Scenes/EnemyGenerator.tscn" id="3_tmfmt"]
 
 [node name="World" type="Node2D"]
 
@@ -11,5 +11,4 @@
 [node name="Player" parent="." instance=ExtResource("1_ua5f2")]
 position = Vector2(80, 216)
 
-[node name="GreenEnemy" parent="." instance=ExtResource("3_530b5")]
-position = Vector2(48, 56)
+[node name="EnemyGenerator" parent="." instance=ExtResource("3_tmfmt")]

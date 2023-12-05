@@ -44,7 +44,8 @@ radius = 6.0
 sprite_frames = SubResource("SpriteFrames_cdmli")
 animation = &"move"
 autoplay = "move"
-frame_progress = 0.926787
+frame = 1
+frame_progress = 0.240105
 
 [node name="StatsComponent" parent="." index="2"]
 health = 3
