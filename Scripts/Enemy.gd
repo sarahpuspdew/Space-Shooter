@@ -9,6 +9,7 @@ class_name Enemy
 @onready var hurtbox_component := $HurtboxComponent as HurtboxComponent
 @onready var stats_component := $StatsComponent as StatsComponent
 @onready var destroyed_component := $DestroyedComponent as DestroyedComponent
+@onready var score_component := $ScoreComponent as ScoreComponent
 
 
 func _ready():
@@ -28,6 +29,7 @@ func _on_hurtbox_hurt(hitbox):
 
 
 func _on_stats_no_health():
+	score_component.adjust_score()
 	queue_free()
 
 

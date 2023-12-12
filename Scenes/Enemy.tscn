@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://clphwcg80nac3"]
+[gd_scene load_steps=15 format=3 uid="uid://clphwcg80nac3"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy.gd" id="1_4ycrh"]
 [ext_resource type="Script" path="res://Components/MoveComponent.gd" id="1_5c0es"]
 [ext_resource type="Script" path="res://Components/StatsComponent.gd" id="1_ii8r5"]
 [ext_resource type="Script" path="res://Components/ScaleComponent.gd" id="2_2kloi"]
+[ext_resource type="Script" path="res://Components/ScoreComponent.gd" id="2_yufgc"]
+[ext_resource type="Resource" uid="uid://pp08dv71cbqg" path="res://Components/GameStats.tres" id="3_144ju"]
 [ext_resource type="Script" path="res://Components/FlashComponent.gd" id="4_5woke"]
 [ext_resource type="Script" path="res://Components/ShakeComponent.gd" id="4_c8hnu"]
 [ext_resource type="Script" path="res://Components/HurtboxComponent.gd" id="7_6jdvo"]
@@ -19,6 +21,11 @@ script = ExtResource("1_4ycrh")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="ScoreComponent" type="Node" parent="."]
+script = ExtResource("2_yufgc")
+game_stats = ExtResource("3_144ju")
+score_amount = 5
 
 [node name="StatsComponent" type="Node" parent="."]
 script = ExtResource("1_ii8r5")

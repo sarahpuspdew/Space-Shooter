@@ -61,10 +61,10 @@ autoplay = "move"
 frame = 2
 frame_progress = 0.762349
 
-[node name="StatsComponent" parent="." index="2"]
+[node name="StatsComponent" parent="." index="3"]
 health = 5
 
-[node name="MoveComponent" parent="." index="3"]
+[node name="MoveComponent" parent="." index="4"]
 velocity = Vector2(0, 25)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
